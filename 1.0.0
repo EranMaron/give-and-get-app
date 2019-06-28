@@ -1,0 +1,4 @@
++ react-native-reanimated@1.0.1
+updated 1 package and audited 901055 packages in 14.634s
+found 11 low severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
