@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
-import { Text, View, Alert, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, Button, Alert, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import LinearGradient from 'react-native-linear-gradient'
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Input } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const styles = StyleSheet.create({
     wrapper: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#000'
     },
     container: {
         flex: 1,
         width: '100%',
         height: '100%',
         alignItems: 'center',
-        backgroundColor: '#2a2a2a',
+        backgroundColor: '#000',
     },
     title: {
         fontSize: 40,
@@ -88,6 +89,16 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18
     },
+    backBtn: {
+        width: 50,
+        height: 70,
+        backgroundColor: 'transparent'  
+    },
+    backIcon: {
+        width: '100%',
+        backgroundColor: 'transparent',
+        margin: 20,
+    },
 })
 
 class GiveTask extends Component {
@@ -102,23 +113,6 @@ class GiveTask extends Component {
             expiredDate: 'YYYY-MM-DD',
             createTaskDate: '',
             showExpiredBtn: true
-        }
-    }
-    
-    static navigationOptions = {
-        title: 'Add Task',
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        tabBarOptions: {
-          activeBackgroundColor: "#5E1284",
-          activeTintColor: "#fff",
-          inactiveBackgroundColor: '#2a2a2a',
-          labelStyle: {
-            fontSize: 15,
-            paddingBottom: 10,
-          },
         }
     }
     
@@ -156,9 +150,12 @@ class GiveTask extends Component {
                             'Error!',
                             data.message,
                             [{text: 'Close'}]
-                    )}
+                        )
+                    } else {
+                        this.props.navigation.navigate("Given", {date: new Date()})  
+                    }
                 }
-            )
+        )
             .catch(err => console.log(err))
     }
     
@@ -169,6 +166,17 @@ class GiveTask extends Component {
     render() {
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
+            <TouchableOpacity
+                style={styles.backBtn}
+                onPress={() => this.props.navigation.navigate("Profile")}
+            >
+                <Icon
+                    style={styles.backIcon}
+                    name='arrow-left'
+                    size={30}
+                    color='#fff'
+                />
+            </TouchableOpacity>
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Add Task</Text>
@@ -257,10 +265,11 @@ class GiveTask extends Component {
                                 style={styles.calendar}
                                 minDate={new Date()}
                                 onDayPress={(dateString) => {
-                                    let createDate = new Date()
+                                    let time = new Date()
+                                    let date = `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()}`
                                     this.setState({
-                                        expiredDate: dateString.timestamp,
-                                        createTaskDate: createDate.getTime(),
+                                        expiredDate: dateString.dateString,
+                                        createTaskDate: date,
                                         showExpiredBtn: true
                                     })
                                 }}

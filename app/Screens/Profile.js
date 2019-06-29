@@ -62,14 +62,14 @@ class Profile extends Component {
   }
   
   static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-    backgroundColor: 'red',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
+    // title: 'Home',
+    // headerStyle: {
+    // backgroundColor: 'red',
+    // },
+    // headerTintColor: '#fff',
+    // headerTitleStyle: {
+    //   fontWeight: 'bold',
+    // },
     tabBarOptions: {
       activeBackgroundColor: "#5E1284",
       activeTintColor: "#fff",
@@ -136,7 +136,7 @@ class Profile extends Component {
             <TouchableOpacity
               ref="give"
               style={styles.btn}
-              onPress={() => this.handleOnPress('Given')}
+              onPress={() => this.handleOnPress('GiveTask')}
             >
               <Image
                 source={require('../../assets/give_task.png')}

@@ -76,6 +76,7 @@ class Given extends Component {
   }
   
   componentWillMount() {
+    console.log("In Will Mount")
     this.navListener = this.props.navigation.addListener('didFocus', async () => {
       let user = await AsyncStorage.getItem('user')
       let pass = await AsyncStorage.getItem('password')
@@ -115,7 +116,7 @@ class Given extends Component {
                             size={60}
                             color='#fff'
                           />}
-        title={<Text style={styles.taskTitle} numberOfLines={1}>{task.task_name}</Text>}
+                title={<Text style={styles.taskTitle} numberOfLines={1}>{task.task_name}</Text>}
                 subtitle={<Card task={task} />}
                 titleStyle={{fontSize: 24, color: '#fff', fontWeight: 'bold', marginTop: 60}}
                 subtitleStyle={{color: 'black'}}
@@ -123,9 +124,10 @@ class Given extends Component {
             </TouchableOpacity>
   }
   
-  handleTaskPress = (taskName) => {
+  handleTaskPress = (task) => {
     //TODO: Navigate to Task page
-    console.log('Task Name: ', taskName)
+    console.log('Task Name: ', task)
+    this.props.navigation.navigate("Task", {task})
   }
   
   render() {

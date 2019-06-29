@@ -30,9 +30,12 @@ class Card extends Component {
     }
     
     render() {
-        var a = moment([this.props.task.createTaskDate]);
-        var b = moment([this.props.task.expired_date]);
-        console.log(a.diff(b, 'days')) 
+        //TODO: Try to find the Diff from the Create and the Expired time to calculate how much time left to complete the task
+        console.log(this.props.task.createTaskDate)
+        console.log(this.props.task.expired_date)  
+        var a = moment([this.props.task.expired_date]);
+        var b = moment([this.props.task.createTaskDate]);
+        console.log(a.diff(b, 'days'))
         return (
             <View style={styles.cardContainer}>
                 <Text style={styles.text} numberOfLines = { 1 }> {this.props.task.description} </Text>
