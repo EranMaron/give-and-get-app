@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, Alert, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -99,7 +99,8 @@ class GiveTask extends Component {
             taskName: '',
             taskDescription: '',
             reward: '',
-            expiredDate: '',
+            expiredDate: 'YYYY-MM-DD',
+            createTaskDate: '',
             showExpiredBtn: true
         }
     }
@@ -122,7 +123,14 @@ class GiveTask extends Component {
     }
     
     handleSend = async () => {
-        console.log("In Handle")
+        if (this.state.recieverPhoneNumber === '' || this.state.taskName === '' || this.state.taskDescription === '' || this.state.reward === '') {
+            Alert.alert(
+                'Bad Boy!',
+                'You must fill in all fields!',
+                [{text: 'OK'}]
+            )
+            return
+        }
         let userPhoneNumber = await AsyncStorage.getItem('user')
         console.log(userPhoneNumber)
         fetch('http://192.168.15.1:3200/addTask', {
@@ -138,10 +146,19 @@ class GiveTask extends Component {
                 description: this.state.taskDescription,
                 reward: this.state.reward,
                 expired_date: this.state.expiredDate,
+                createTaskDate: this.state.createTaskDate
             })
         })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then((data) => {
+                    if (data.status === '400') {
+                        Alert.alert(
+                            'Error!',
+                            data.message,
+                            [{text: 'Close'}]
+                    )}
+                }
+            )
             .catch(err => console.log(err))
     }
     
@@ -149,7 +166,7 @@ class GiveTask extends Component {
         this.setState({showExpiredBtn: false})
     }
     
-  render() {
+    render() {
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
@@ -239,7 +256,14 @@ class GiveTask extends Component {
                             <Calendar
                                 style={styles.calendar}
                                 minDate={new Date()}
-                                onDayPress={(dateString) => {this.setState({expiredDate: dateString.dateString, showExpiredBtn: true})}}
+                                onDayPress={(dateString) => {
+                                    let createDate = new Date()
+                                    this.setState({
+                                        expiredDate: dateString.timestamp,
+                                        createTaskDate: createDate.getTime(),
+                                        showExpiredBtn: true
+                                    })
+                                }}
                             />
                         }
                         <TouchableOpacity

@@ -1,18 +1,26 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, ProgressBarAndroid } from 'react-native'
 import { connect } from 'react-redux'
-import LinearGradient from 'react-native-linear-gradient';
+
+import moment from 'moment';
+var now = moment().format();
 
 const styles = StyleSheet.create({
     cardContainer: {
-        // alignItems: 'center',
         width: '100%',
         height: '100%',
     },
     text: {
         fontSize: 18,
         color: '#fff'
-    }
+    },
+    progressBarContainer: {
+        // alignItems: 'center',
+        width: '100%',  
+    },
+    progressBar: {
+        width: '80%'  
+    },
 })
 
 class Card extends Component {
@@ -22,14 +30,22 @@ class Card extends Component {
     }
     
     render() {
+        var a = moment([this.props.task.createTaskDate]);
+        var b = moment([this.props.task.expired_date]);
+        console.log(a.diff(b, 'days')) 
         return (
             <View style={styles.cardContainer}>
-                {/* <LinearGradient style={styles.card} colors={['#170020', '#5E0084']}> */}
-                <View />
-                {/* <Text style={styles.text}> {this.props.task.task_name} </Text> */}
-                <Text style={styles.text}> {this.props.task.description} </Text>
-                <Text style={styles.text}> {this.props.task.reward} </Text>
-                {/* </LinearGradient> */}
+                <Text style={styles.text} numberOfLines = { 1 }> {this.props.task.description} </Text>
+                <Text style={styles.text} numberOfLines = { 1 }> {this.props.task.reward} </Text>
+                <View style={styles.progressBarContainer}>
+                    <ProgressBarAndroid
+                        style={styles.progressBar}
+                        styleAttr="Horizontal"
+                        indeterminate={false}
+                        progress={0.5}
+                        // color={progress <= 0.5 ? 'red' : 'blue'}
+                    />
+                </View>
             </View>
         )
   }
@@ -39,7 +55,9 @@ const mapStateToProps = state => ({
     taskName: state.tasksReducer.user.task_name,
     taskDescription: state.tasksReducer.user.description,
     taskReward: state.tasksReducer.user.reward,
-    givenTask: state.tasksReducer.user.given_tasks
+    givenTask: state.tasksReducer.user.given_tasks,
+    createTaskDate: state.tasksReducer.user.given_tasks.createTaskDate,
+    expiredDate: state.tasksReducer.user.given_tasks.expired_date
 })
 
 export default connect(mapStateToProps, {})(Card)

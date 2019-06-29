@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
     width: '95%',
     marginBottom: 15,
   },
+  taskTitle: {
+    fontSize: 25,
+    color: '#fff',
+    marginTop: 40,
+    fontWeight: 'bold',
+  },
   listItem: {
     width: '95%',
     borderRadius: 15
@@ -69,7 +75,7 @@ class Given extends Component {
     },
   }
   
-  componentDidMount() {
+  componentWillMount() {
     this.navListener = this.props.navigation.addListener('didFocus', async () => {
       let user = await AsyncStorage.getItem('user')
       let pass = await AsyncStorage.getItem('password')
@@ -109,7 +115,7 @@ class Given extends Component {
                             size={60}
                             color='#fff'
                           />}
-                title={task.task_name}
+        title={<Text style={styles.taskTitle} numberOfLines={1}>{task.task_name}</Text>}
                 subtitle={<Card task={task} />}
                 titleStyle={{fontSize: 24, color: '#fff', fontWeight: 'bold', marginTop: 60}}
                 subtitleStyle={{color: 'black'}}
