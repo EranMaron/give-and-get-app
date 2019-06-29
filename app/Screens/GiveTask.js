@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Alert, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, Alert, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
 import { Calendar } from 'react-native-calendars'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -127,7 +127,7 @@ class GiveTask extends Component {
         }
         let userPhoneNumber = await AsyncStorage.getItem('user')
         console.log(userPhoneNumber)
-        fetch('http://192.168.15.1:3200/addTask', {
+        fetch('http://192.168.1.17:3200/addTask', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

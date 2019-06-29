@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, Image, ProgressBarAndroid } from 'react-native'
 
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -50,6 +50,19 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#fff',
   },
+  loaderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  progressBar: {
+      width: '60%'
+  },
+  loaderText: {
+    fontSize: 25,
+    color: '#fff',
+  },
 })
 
 class Profile extends Component {
@@ -62,17 +75,9 @@ class Profile extends Component {
   }
   
   static navigationOptions = {
-    // title: 'Home',
-    // headerStyle: {
-    // backgroundColor: 'red',
-    // },
-    // headerTintColor: '#fff',
-    // headerTitleStyle: {
-    //   fontWeight: 'bold',
-    // },
     tabBarOptions: {
-      activeBackgroundColor: "#5E1284",
-      activeTintColor: "#fff",
+      activeBackgroundColor: "#000",
+      activeTintColor: "purple",      
       inactiveBackgroundColor: '#000',
       labelStyle: {
         fontSize: 15,
@@ -96,7 +101,7 @@ class Profile extends Component {
   
   fetchUserData = (userPhone, password) => {
     console.log(`User: ${userPhone} Pass: ${password}`)
-    fetch('http://192.168.15.1:3200/signin', {
+    fetch('http://192.168.1.17:3200/signin', {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -124,8 +129,14 @@ class Profile extends Component {
   }
   
   render() {
-    if (this.state.isLoading === true)
-            return <View><Text>Loading...</Text></View>
+    if (this.state.isLoading)
+      return  <View style={styles.loaderContainer}>
+        <ProgressBarAndroid
+                  style={styles.progressBar}
+                  styleAttr="Horizontal"
+                  indeterminate={true} />
+                <Text style={styles.loaderText}>Loading...</Text>
+              </View>
     return (
       // <LinearGradient style={styles.container} colors={['#170020', '#5E0084']}
       //   start={{x: 0.5, y: 0.5}} end={{x: 0.5, y: 1}}>

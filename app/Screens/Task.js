@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import { Divider } from 'react-native-elements'
+import {Divider} from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const styles = StyleSheet.create({
     container: {
@@ -10,6 +11,18 @@ const styles = StyleSheet.create({
     },
     scrollViewStyle: {
         width: '100%',
+    },
+    backContainer: {
+        width: '100%'  
+    },
+    backBtn: {
+        width: 70,
+        height: 70,
+        backgroundColor: 'transparent',
+    },
+    backIcon: {
+        backgroundColor: 'transparent',
+        margin: 20,
     },
     titleContainer: {
         alignItems: 'center',
@@ -53,7 +66,7 @@ const styles = StyleSheet.create({
     img: {
         width: 150,
         height: 130,
-        marginTop: 25,
+        marginTop: 5,
         marginBottom: 15,
     },
     title: {
@@ -76,6 +89,19 @@ export default class Task extends Component {
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.scrollViewStyle}>
                     <View style={styles.titleContainer}>
+                        <View style={styles.backContainer}>
+                            <TouchableOpacity
+                                style={styles.backBtn}
+                                onPress={() => this.props.navigation.navigate("Given", {date: new Date()})}
+                            >
+                                <Icon
+                                    style={styles.backIcon}
+                                    name='arrow-left'
+                                    size={30}
+                                    color='#fff'
+                                />
+                            </TouchableOpacity>
+                        </View>
                         <Image style={styles.img} source={require('../../assets/give_task.png')}/>
                         <Text style={styles.taskName}>{task.task_name}</Text>
                     </View>
@@ -93,13 +119,13 @@ export default class Task extends Component {
                         <Text style={styles.text}>{task.reward}</Text>
                         <Divider style={styles.divider} />
                     </View>
-                    <View style={styles.btnContainer}>
+                    {/* <View style={styles.btnContainer}>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => this.props.navigation.navigate("Given", {date: new Date()})}>
-                            <Text style={styles.btnText}>Login</Text>
+                            <Text style={styles.btnText}>Go Back</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                 </ScrollView>
             </View>
     )

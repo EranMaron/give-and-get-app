@@ -91,33 +91,33 @@ class Login extends Component {
             this.props.navigation.navigate('Profile')
         }
     }
-    
     handleLogin = () => {
-            let user = this.state.userPhone
-            let pass = this.state.password
-        fetch('http://192.168.1.23:3200/signin', {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user: user,
-                pass: pass
-            })
+        let user = this.state.userPhone
+        let pass = this.state.password
+    fetch('http://192.168.1.17:3200/signin', {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user: user,
+            pass: pass
         })
-        .then(res => res.json())
-            .then(async data => {
-                if (data.status) {
-                    await AsyncStorage.setItem('user', user)
-                    await AsyncStorage.setItem('password', pass)
-                    this.props.storeUserData(data.user)
-                    this.props.navigation.navigate('Profile')
-                } else {
-                    alert(data.message)
-                }
-            }).catch(err => console.log(err))
-    }
+    })
+    .then(res => res.json())
+        .then(async data => {
+            if (data.status) {
+                await AsyncStorage.setItem('user', user)
+                await AsyncStorage.setItem('password', pass)
+                console.log(AsyncStorage.getItem('user'))
+                this.props.storeUserData(data.user)
+                this.props.navigation.navigate('Profile')
+            } else {
+                alert(data.message)
+            }
+        }).catch(err => console.log(err))
+}
     
     render() {
     return (

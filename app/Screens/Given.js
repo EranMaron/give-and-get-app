@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity, ProgressBarAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import { ListItem } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     // justifyContent: 'center',
-    backgroundColor: '#2a2a2a'
+    backgroundColor: '#000'
   },
   scrollViewStyle: {
     // flex: 1,
@@ -44,6 +44,19 @@ const styles = StyleSheet.create({
     width: '95%',
     borderRadius: 15
   },
+  loaderContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+  },
+  progressBar: {
+      width: '60%'
+  },
+  loaderText: {
+    fontSize: 25,
+    color: '#fff',
+  },
 })
 
 class Given extends Component {
@@ -57,17 +70,14 @@ class Given extends Component {
   
   static navigationOptions = {
     title: 'Gives',
-    headerStyle: {
-      backgroundColor: 'purple',
-    },
     headerTintColor: '#fff',
     headerTitleStyle: {
       fontWeight: 'bold',
     },
     tabBarOptions: {
-      inactiveBackgroundColor: '#2a2a2a',
-      activeBackgroundColor: "#5E1284",
-      activeTintColor: "#fff",
+      inactiveBackgroundColor: '#000',
+      activeBackgroundColor: "#000",
+      activeTintColor: "purple",
       labelStyle: {
         fontSize: 15,
         paddingBottom: 10,
@@ -76,11 +86,10 @@ class Given extends Component {
   }
   
   componentWillMount() {
-    console.log("In Will Mount")
     this.navListener = this.props.navigation.addListener('didFocus', async () => {
       let user = await AsyncStorage.getItem('user')
       let pass = await AsyncStorage.getItem('password')
-      fetch('http://192.168.15.1:3200/signin', {
+      fetch('http://192.168.1.17:3200/signin', {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -95,6 +104,7 @@ class Given extends Component {
             .then(async data => {
                 if (data.status) {
                   this.props.storeUserData(data.user)
+                  this.setState({isLoading: false})
                 } else {
                     alert(data.message)
                 }
@@ -131,6 +141,14 @@ class Given extends Component {
   }
   
   render() {
+    if (this.state.isLoading)
+      return  <View style={styles.loaderContainer}>
+                <ProgressBarAndroid
+                  style={styles.progressBar}
+                  styleAttr="Horizontal"
+                  indeterminate={true} />
+                <Text style={styles.loaderText}>Loading...</Text>
+              </View>
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Given Tasks</Text>
