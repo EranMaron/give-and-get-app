@@ -98,7 +98,7 @@ class Given extends Component {
     },
   }
   
-  componentWillMount() {
+  componentDidMount() {
     console.log("In Will Mount")
     this.navListener = this.props.navigation.addListener('didFocus', async () => {
       let user = await AsyncStorage.getItem('user')

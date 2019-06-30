@@ -7,7 +7,7 @@ import {
     KeyboardAvoidingView,
     TouchableOpacity
 } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Input } from 'react-native-elements';
 
 import { connect } from 'react-redux'
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        // justifyContent: 'center',
         backgroundColor: '#2a2a2a',
         paddingLeft: 40,
         paddingRight: 40
@@ -73,7 +72,7 @@ const styles = StyleSheet.create({
     },
 })
 
-class Login extends Component {
+class Signup extends Component {
     
     static navigationOptions = {
         header: null,
@@ -84,25 +83,29 @@ class Login extends Component {
         this.state = {
             userPhone: '',
             password: '',
+            name: '',
             message: '',
             isLoading: true
         }
     }
     
-    componentWillMount() {
-        this.checkIflogedIn()
-    }
+    // componentWillMount() {
+    //     this.checkIflogedIn()
+    // }
     
-    checkIflogedIn = async () => {
-        let value = await AsyncStorage.getItem('user')
-        if (value !== null) {
-            this.props.navigation.navigate('Home')
-        }
-    }
-    handleLogin = () => {
+    // checkIflogedIn = async () => {
+    //     let value = await AsyncStorage.removeItem('user')
+    //     if (value !== null) {
+    //         this.props.navigation.navigate('Profile')
+    //     }
+    // }
+    
+    handleSignUp = () => {
         let user = this.state.userPhone
         let pass = this.state.password
-    fetch('http://192.168.1.17:3200/signin', {
+        let name = this.state.name
+        console.log(this.state.userPhone)
+    fetch('http://192.168.1.17:3200/signup', {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -110,7 +113,11 @@ class Login extends Component {
         },
         body: JSON.stringify({
             user: user,
-            pass: pass
+            pass: pass,
+            name: name,
+            given_tasks: [],
+            gotten_tasks: [],
+            contact_list: []
         })
     })
     .then(res => res.json())
@@ -118,8 +125,7 @@ class Login extends Component {
             if (data.status) {
                 await AsyncStorage.setItem('user', user)
                 await AsyncStorage.setItem('password', pass)
-                console.log(AsyncStorage.getItem('user'))
-                this.props.storeUserData(data.user)
+                this.props.storeUserData(this.state)
                 this.props.navigation.navigate('Home')
             } else {
                 alert(data.message)
@@ -131,11 +137,28 @@ class Login extends Component {
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
             <View style={styles.container}>
-                <Text style={styles.title}>Login</Text>
+                <Text style={styles.title}>Signup</Text>
                 <View style={styles.formContainer}>
                     <Input
+                        onChangeText={userName => this.setState({name: userName})}
+                        placeholder='Name'
+                        inputContainerStyle={styles.inputContainerStyle}
+                        placeholderTextColor='#fff'
+                        inputStyle={styles.inputStyle}
+                        leftIcon={
+                        <Icon
+                            name='user'
+                            size={24}
+                            color='#fff'
+                        />
+                        }
+                        keyboardType='phone-pad'
+                        returnKeyType={'next'}
+                        onSubmitEditing={() => this.password.focus()}
+                    />
+                    <Input
                         onChangeText={userPhone => this.setState({userPhone: userPhone})}
-                        placeholder='PHONE NUMBER'
+                        placeholder='Phone Number'
                         inputContainerStyle={styles.inputContainerStyle}
                         placeholderTextColor='#fff'
                         inputStyle={styles.inputStyle}
@@ -153,7 +176,7 @@ class Login extends Component {
                     <Input
                         ref={(input) => this.password = input}
                         onChangeText={password => this.setState({password: password})}
-                        placeholder='PASSWORD'
+                        placeholder='Password'
                         inputStyle={styles.inputStyle}
                         placeholderTextColor='#fff'
                         leftIcon={
@@ -167,10 +190,10 @@ class Login extends Component {
                     />
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={this.handleLogin}>
-                        <Text style={styles.btnText}>Login</Text>
+                        onPress={this.handleSignUp}>
+                        <Text style={styles.btnText}>Sign Up</Text>
                     </TouchableOpacity>
-                    <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Signup")}>Or Sign Up</Text>
+                    <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Login")}> Or Login</Text>
                 </View>
             </View>
         </KeyboardAvoidingView>
@@ -182,4 +205,4 @@ const mapStateToProps = state => ({
     phoneNumber: state.tasksReducer.user.phone_number
 })
 
-export default connect(mapStateToProps, { storeUserData })(Login)
+export default connect(mapStateToProps, { storeUserData })(Signup)

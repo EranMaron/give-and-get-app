@@ -4,24 +4,28 @@ import { createSwitchNavigator, createBottomTabNavigator, createStackNavigator, 
 // import Icon from 'react-native-vector-icons/Ionicons'
 
 import Login from './app/Screens/Login'
-import Profile from './app/Screens/Profile'
+import Signup from './app/Screens/Signup'
+import Home from './app/Screens/Home'
 import Given from './app/Screens/Given'
 import Gotten from './app/Screens/Gotten'
 import GiveTask from './app/Screens/GiveTask'
 import Task from './app/Screens/Task'
+import Profile from './app/Screens/Profile'
 
 const MainNavigator = createBottomTabNavigator({
-  Profile: {screen: Profile},
+  Home: {screen: Home,},
   Given: {screen: Given},
   Gotten: {screen: Gotten},
+  Profile: {screen: Profile},
 },
   {
-    initialRouteName: 'Profile'
+    initialRouteName: 'Home'
   }
 )
 
 const LoginNavigator = createStackNavigator({
-  Login: { screen: Login }
+  Login: {screen: Login},
+  Signup: {screen: Signup}
 });
 
 

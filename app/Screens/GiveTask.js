@@ -168,7 +168,7 @@ class GiveTask extends Component {
         <KeyboardAvoidingView style={styles.wrapper}>
             <TouchableOpacity
                 style={styles.backBtn}
-                onPress={() => this.props.navigation.navigate("Profile")}
+                onPress={() => this.props.navigation.navigate("Home")}
             >
                 <Icon
                     style={styles.backIcon}

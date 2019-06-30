@@ -85,7 +85,7 @@ class Given extends Component {
     },
   }
   
-  componentWillMount() {
+  componentDidMount() {
     this.navListener = this.props.navigation.addListener('didFocus', async () => {
       let user = await AsyncStorage.getItem('user')
       let pass = await AsyncStorage.getItem('password')
