@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Gotten functionality Gotten component renders correctly 1`] = `
+<View>
+  <Text>
+     Gotten Screen 
+  </Text>
+</View>
+`;
