@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
+
 import {Divider} from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
 export default class Task extends Component {
     render() {
         let task = this.props.navigation.getParam('task')
-        console.log(task)
+        let page = this.props.navigation.getParam('page')
         return (
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.scrollViewStyle}>
@@ -92,7 +93,7 @@ export default class Task extends Component {
                         <View style={styles.backContainer}>
                             <TouchableOpacity
                                 style={styles.backBtn}
-                                onPress={() => this.props.navigation.navigate("Given", {date: new Date()})}
+                                onPress={() => this.props.navigation.navigate(page, {date: new Date()})}
                             >
                                 <Icon
                                     style={styles.backIcon}

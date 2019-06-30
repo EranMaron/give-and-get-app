@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { ListItem } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-// import LinearGradient from 'react-native-linear-gradient'
 import { storeUserData } from '../../actions/loginActions'
 
 import Card from '../components/Card'
@@ -16,12 +15,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    // justifyContent: 'center',
     backgroundColor: '#000'
   },
   scrollViewStyle: {
-    // flex: 1,
-    // alignItems: 'center',
     width: '100%'
   },
   title: {
@@ -56,6 +52,16 @@ const styles = StyleSheet.create({
   loaderText: {
     fontSize: 25,
     color: '#fff',
+  },
+  messageContainer: {
+    flex: 1,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  message: {
+    color: '#fff',
+    fontSize: 25
   },
 })
 
@@ -108,7 +114,7 @@ class Given extends Component {
                 } else {
                     alert(data.message)
                 }
-            }).catch(err => console.log(err))
+            }).catch(err => alert(err))
     })
   }
   
@@ -120,7 +126,7 @@ class Given extends Component {
               >
               <ListItem
                 style={styles.listItem}
-                containerStyle={{width: '100%', height: 100, backgroundColor: 'purple', borderRadius: 15}}
+                containerStyle={{width: '100%', height: 100, backgroundColor: '#2a2a2a', borderRadius: 0}}
                 leftIcon={<Icon
                             name='tasks'
                             size={60}
@@ -135,9 +141,7 @@ class Given extends Component {
   }
   
   handleTaskPress = (task) => {
-    //TODO: Navigate to Task page
-    console.log('Task Name: ', task)
-    this.props.navigation.navigate("Task", {task})
+    this.props.navigation.navigate("Task", {task, page: 'Given'})
   }
   
   render() {
@@ -153,7 +157,13 @@ class Given extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>Given Tasks</Text>
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          {this.props.givenTasks.map(this.showTasks)}
+          {this.props.givenTasks.length === 0 ?
+            <View style={styles.messageContainer}>
+              <Text style={styles.message}>You Are Not</Text>
+              <Text style={styles.message}>A Given Person Ah?</Text>
+            </View> :
+            this.props.givenTasks.map(this.showTasks)
+          }
         </ScrollView>
       </View>
     )

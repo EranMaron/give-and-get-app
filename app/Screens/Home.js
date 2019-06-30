@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, Image, ProgressBarAndroid } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
 
-
 import { storeUserData } from '../../actions/loginActions'
-import LinearGradient from 'react-native-linear-gradient';
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +42,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     paddingTop: 5,
-    // paddingBottom: 5,
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 25,
@@ -96,13 +92,11 @@ class Home extends Component {
     let user = await AsyncStorage.getItem('user')
     let pass = await AsyncStorage.getItem('password')
     if (user !== null) {
-      console.log(user)
         this.fetchUserData(user, pass)
     }
   }
   
   fetchUserData = (userPhone, password) => {
-    console.log(`User: ${userPhone} Pass: ${password}`)
     fetch('http://192.168.1.17:3200/signin', {
         method: "POST",
         headers: {
@@ -116,14 +110,13 @@ class Home extends Component {
     })
     .then(res => res.json())
         .then( data => {
-          console.log(`Data user: ${data.user}`)
           if (data.status) {
             this.props.storeUserData(data.user)
             this.setState({isLoading: false})
             } else {
                 alert(data.message)
             }
-        }).catch(err => console.log(err))
+        }).catch(err => alert(err))
   }
   
   handleOnPress = (choice) => {
@@ -140,8 +133,6 @@ class Home extends Component {
                 <Text style={styles.loaderText}>Loading...</Text>
               </View>
     return (
-      // <LinearGradient style={styles.container} colors={['#170020', '#5E0084']}
-      //   start={{x: 0.5, y: 0.5}} end={{x: 0.5, y: 1}}>
       <View style={styles.container}>
         <Text style={styles.title}> Profile Screen </Text>
         <View style={styles.BtnsContainer}>
@@ -173,7 +164,6 @@ class Home extends Component {
           </View>
         </View>
       </View>
-      // </LinearGradient>
     )
   }
 }

@@ -126,7 +126,6 @@ class GiveTask extends Component {
             return
         }
         let userPhoneNumber = await AsyncStorage.getItem('user')
-        console.log(userPhoneNumber)
         fetch('http://192.168.1.17:3200/addTask', {
             method: 'POST',
             headers: {
@@ -156,7 +155,7 @@ class GiveTask extends Component {
                     }
                 }
         )
-            .catch(err => console.log(err))
+            .catch(err => alert(err))
     }
     
     handleExpiredBtn = () => {
@@ -218,7 +217,7 @@ class GiveTask extends Component {
                             ref={(input) => this.description = input}
                             onChangeText={description => this.setState({taskDescription: description})}
                             returnKeyType={'next'}
-                            onSubmitEditing={() => this.expired.focus()}                       
+                            onSubmitEditing={() => this.reward.focus()}                       
                             placeholder='Description'
                             inputContainerStyle={styles.inputContainerStyle}                        
                             inputStyle={styles.inputStyle}

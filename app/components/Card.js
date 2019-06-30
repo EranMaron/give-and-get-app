@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     progressBarContainer: {
-        // alignItems: 'center',
         width: '100%',  
     },
     progressBar: {
@@ -30,12 +29,6 @@ class Card extends Component {
     }
     
     render() {
-        //TODO: Try to find the Diff from the Create and the Expired time to calculate how much time left to complete the task
-        console.log(this.props.task.createTaskDate)
-        console.log(this.props.task.expired_date)  
-        var a = moment([this.props.task.expired_date]);
-        var b = moment([this.props.task.createTaskDate]);
-        console.log(a.diff(b, 'days'))
         return (
             <View style={styles.cardContainer}>
                 <Text style={styles.text} numberOfLines = { 1 }> {this.props.task.description} </Text>
@@ -46,7 +39,6 @@ class Card extends Component {
                         styleAttr="Horizontal"
                         indeterminate={false}
                         progress={0.5}
-                        // color={progress <= 0.5 ? 'red' : 'blue'}
                     />
                 </View>
             </View>

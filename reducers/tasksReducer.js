@@ -11,8 +11,7 @@ export default function (state = initialState, action) {
                 ...state,
                 user: action.payload
             }
-        default:
-            console.log("In Default Switch")            
+        default:           
             return state
     }
 }

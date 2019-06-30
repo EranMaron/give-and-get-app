@@ -3,9 +3,10 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
     KeyboardAvoidingView,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert,
+    ScrollView
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
@@ -22,8 +23,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        // justifyContent: 'center',
-        backgroundColor: '#2a2a2a',
+        height: '100%',
+        backgroundColor: '#000',
         paddingLeft: 40,
         paddingRight: 40
     },
@@ -71,6 +72,10 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         marginTop: 20,
     },
+    scrollViewStyle: {
+        width: '100%',
+        height: '100%',
+    },
 })
 
 class Login extends Component {
@@ -99,9 +104,18 @@ class Login extends Component {
             this.props.navigation.navigate('Home')
         }
     }
+    
     handleLogin = () => {
         let user = this.state.userPhone
         let pass = this.state.password
+        if (user === '' || pass === '') {
+            Alert.alert(
+                'Bad Boy!',
+                'You must fill in all fields!',
+                [{text: 'OK'}]
+            )
+            return
+        }
     fetch('http://192.168.1.17:3200/signin', {
         method: "POST",
         headers: {
@@ -118,61 +132,62 @@ class Login extends Component {
             if (data.status) {
                 await AsyncStorage.setItem('user', user)
                 await AsyncStorage.setItem('password', pass)
-                console.log(AsyncStorage.getItem('user'))
                 this.props.storeUserData(data.user)
                 this.props.navigation.navigate('Home')
             } else {
                 alert(data.message)
             }
-        }).catch(err => console.log(err))
+        }).catch(err => alert(err))
 }
     
     render() {
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
-            <View style={styles.container}>
-                <Text style={styles.title}>Login</Text>
-                <View style={styles.formContainer}>
-                    <Input
-                        onChangeText={userPhone => this.setState({userPhone: userPhone})}
-                        placeholder='PHONE NUMBER'
-                        inputContainerStyle={styles.inputContainerStyle}
-                        placeholderTextColor='#fff'
-                        inputStyle={styles.inputStyle}
-                        leftIcon={
-                            <Icon
-                                name='phone'
-                                size={24}
-                                color='#fff'
-                            />
-                        }
-                        keyboardType='phone-pad'
-                        returnKeyType={'next'}
-                        onSubmitEditing={() => this.password.focus()}
-                    />
-                    <Input
-                        ref={(input) => this.password = input}
-                        onChangeText={password => this.setState({password: password})}
-                        placeholder='PASSWORD'
-                        inputStyle={styles.inputStyle}
-                        placeholderTextColor='#fff'
-                        leftIcon={
-                            <Icon
-                                name='lock'
-                                size={24}
-                                color='#fff'
-                            />
-                        }
-                        secureTextEntry
-                    />
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={this.handleLogin}>
-                        <Text style={styles.btnText}>Login</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Signup")}>Or Sign Up</Text>
+            <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>Login</Text>
+                    <View style={styles.formContainer}>
+                        <Input
+                            onChangeText={userPhone => this.setState({userPhone: userPhone})}
+                            placeholder='PHONE NUMBER'
+                            inputContainerStyle={styles.inputContainerStyle}
+                            placeholderTextColor='#fff'
+                            inputStyle={styles.inputStyle}
+                            leftIcon={
+                                <Icon
+                                    name='phone'
+                                    size={24}
+                                    color='#fff'
+                                />
+                            }
+                            keyboardType='phone-pad'
+                            returnKeyType={'next'}
+                            onSubmitEditing={() => this.password.focus()}
+                        />
+                        <Input
+                            ref={(input) => this.password = input}
+                            onChangeText={password => this.setState({password: password})}
+                            placeholder='PASSWORD'
+                            inputStyle={styles.inputStyle}
+                            placeholderTextColor='#fff'
+                            leftIcon={
+                                <Icon
+                                    name='lock'
+                                    size={24}
+                                    color='#fff'
+                                />
+                            }
+                            secureTextEntry
+                        />
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={this.handleLogin}>
+                            <Text style={styles.btnText}>Login</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Signup")}>Or Sign Up</Text>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     )
   }
