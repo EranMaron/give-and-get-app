@@ -8,6 +8,8 @@ import {
     Alert,
     ScrollView
 } from 'react-native'
+
+import { URI } from '../../consts'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Input } from 'react-native-elements';
 
@@ -28,22 +30,24 @@ const styles = StyleSheet.create({
         paddingRight: 40
     },
     title: {
-        fontSize: 40,
+        fontSize: 25,
         marginTop: 50,
-        color: '#fff',
+        color: '#7b1fa2',
         fontWeight: 'bold'
     },
     formContainer: {
         flex: 1,
         alignItems: 'center',
         width: '80%',
-        marginTop: 80
+        marginTop: 40
     },
     inputContainerStyle: {
         marginBottom: 20
     },
     inputStyle: {
+        fontSize: 15,        
         color: '#fff',
+        paddingLeft: 10,        
     },
     textInput: {
         alignSelf: 'stretch',
@@ -53,8 +57,8 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '80%',
-        backgroundColor: 'purple',
-        marginTop: 50,
+        backgroundColor: '#7b1fa2',
+        marginTop: 20,
         padding: 15,
         alignItems: 'center',
         borderRadius: 15
@@ -106,7 +110,7 @@ class Signup extends Component {
             )
             return
         }
-    fetch('http://192.168.1.17:3200/signup', {
+        fetch(`${URI}/signup`, {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -196,7 +200,7 @@ class Signup extends Component {
                             onPress={this.handleSignUp}>
                             <Text style={styles.btnText}>Sign Up</Text>
                         </TouchableOpacity>
-                        <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Login")}> Or Login</Text>
+                        <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Login")}>Press For Sign In</Text>
                     </View>
                 </View>
             </ScrollView>

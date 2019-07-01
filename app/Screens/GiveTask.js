@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View, Alert, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
 import { Calendar } from 'react-native-calendars'
-import LinearGradient from 'react-native-linear-gradient'
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Input } from 'react-native-elements';
+import {Input} from 'react-native-elements';
+
+import { URI } from '../../consts'
 import AsyncStorage from '@react-native-community/async-storage';
 
 const styles = StyleSheet.create({
@@ -20,9 +21,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
     },
     title: {
-        fontSize: 40,
-        marginTop: 50,
-        color: '#fff',
+        fontSize: 25,
+        marginTop: 0,
+        color: '#7b1fa2',
         fontWeight: 'bold'
     },
     scrollViewStyle: {
@@ -32,13 +33,15 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         width: '80%',
-        marginTop: 50
+        marginTop: 40
     },
     inputContainerStyle: {
         marginBottom: 20
     },
     inputStyle: {
+        fontSize: 15,
         color: '#fff',
+        paddingLeft: 10,
     },
     textInput: {
         alignSelf: 'stretch',
@@ -48,8 +51,8 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '80%',
-        backgroundColor: 'purple',
-        marginTop: 10,
+        backgroundColor: '#7b1fa2',
+        marginTop: 5,
         padding: 15,
         marginBottom: 100,
         alignItems: 'center',
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
         height: 45,
         flexDirection: 'row',  
         marginBottom: 20,
-        borderBottomWidth: 2,
+        borderBottomWidth: 1,
         borderStyle: 'solid',
         borderColor: '#666'
     },
@@ -68,8 +71,8 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     expiredBtn: {
-        width: '50%',
-        marginBottom: 20,
+        width: '80%',
+        marginBottom: 10,
         padding: 8,
         alignItems: 'center',
         borderWidth: 1,
@@ -79,15 +82,16 @@ const styles = StyleSheet.create({
     },
     expiredText: {
         color: '#fff',
-        fontSize: 18,
-        paddingLeft: 5
+        fontSize: 15,
+        paddingLeft: 10,
     },
     calendar: {
+        position: 'absolute',
         width: '100%',
     },  
     btnText: {
         color: '#fff',
-        fontSize: 18
+        fontSize: 18,
     },
     backBtn: {
         width: 50,
@@ -117,7 +121,7 @@ class GiveTask extends Component {
     }
     
     handleSend = async () => {
-        if (this.state.recieverPhoneNumber === '' || this.state.taskName === '' || this.state.taskDescription === '' || this.state.reward === '') {
+        if (this.state.recieverPhoneNumber === '' || this.state.taskName === '' || this.state.taskDescription === '' || this.state.reward === '' || this.state.expiredDate === 'YYYY-MM-DD') {
             Alert.alert(
                 'Bad Boy!',
                 'You must fill in all fields!',
@@ -126,7 +130,7 @@ class GiveTask extends Component {
             return
         }
         let userPhoneNumber = await AsyncStorage.getItem('user')
-        fetch('http://192.168.1.17:3200/addTask', {
+        fetch(`${URI}/addTask`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -144,9 +148,9 @@ class GiveTask extends Component {
         })
             .then(res => res.json())
             .then((data) => {
-                    if (data.status === '400') {
+                    if (data.status === false) {
                         Alert.alert(
-                            'Error!',
+                            'Oops!',
                             data.message,
                             [{text: 'Close'}]
                         )
@@ -172,7 +176,7 @@ class GiveTask extends Component {
                 <Icon
                     style={styles.backIcon}
                     name='arrow-left'
-                    size={30}
+                    size={20}
                     color='#fff'
                 />
             </TouchableOpacity>
@@ -245,7 +249,9 @@ class GiveTask extends Component {
                                 />
                             }
                         />
-                        <View style={styles.expiredContainer}>
+                        <TouchableOpacity
+                            style={styles.expiredContainer}
+                            onPress={this.handleExpiredBtn}>
                             <Icon
                                 style={styles.expiredIcon}
                                 name='calendar'
@@ -253,15 +259,11 @@ class GiveTask extends Component {
                                 color='#fff'
                             />    
                             <Text style={styles.expiredText}>{this.state.expiredDate}</Text>
-                        </View>
+                        </TouchableOpacity>
                         {this.state.showExpiredBtn ?
-                            (<TouchableOpacity
-                            style={styles.expiredBtn}
-                            onPress={this.handleExpiredBtn}>
-                            <Text style={styles.btnText}>Pick Expired Date</Text>
-                            </TouchableOpacity>) :
+                            <Text></Text>:
                             <Calendar
-                                style={styles.calendar}
+                            style={styles.calendar}
                                 minDate={new Date()}
                                 onDayPress={(dateString) => {
                                     let time = new Date()

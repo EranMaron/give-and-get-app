@@ -8,9 +8,10 @@ import {
     Alert,
     ScrollView
 } from 'react-native'
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
-
+import { URI } from '../../consts'
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -29,22 +30,24 @@ const styles = StyleSheet.create({
         paddingRight: 40
     },
     title: {
-        fontSize: 40,
+        fontSize: 25,
         marginTop: 50,
-        color: '#fff',
+        color: '#7b1fa2',
         fontWeight: 'bold'
     },
     formContainer: {
         flex: 1,
         alignItems: 'center',
         width: '80%',
-        marginTop: 80
+        marginTop: 40
     },
     inputContainerStyle: {
-        marginBottom: 20
+        marginBottom: 8
     },
     inputStyle: {
+        fontSize: 15,
         color: '#fff',
+        paddingLeft: 10,
     },
     textInput: {
         alignSelf: 'stretch',
@@ -54,8 +57,8 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '80%',
-        backgroundColor: 'purple',
-        marginTop: 50,
+        backgroundColor: '#7b1fa2',
+        marginTop: 20,
         padding: 15,
         alignItems: 'center',
         borderRadius: 15
@@ -116,7 +119,7 @@ class Login extends Component {
             )
             return
         }
-    fetch('http://192.168.1.17:3200/signin', {
+    fetch(`${URI}/signin`, {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -129,7 +132,7 @@ class Login extends Component {
     })
     .then(res => res.json())
         .then(async data => {
-            if (data.status) {
+            if (data.status === '200') {
                 await AsyncStorage.setItem('user', user)
                 await AsyncStorage.setItem('password', pass)
                 this.props.storeUserData(data.user)
@@ -141,15 +144,16 @@ class Login extends Component {
 }
     
     render() {
+        console.log(URI)
     return (
         <KeyboardAvoidingView style={styles.wrapper}>
             <ScrollView contentContainerStyle={styles.scrollViewStyle}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Login</Text>
+                    <Text style={styles.title}>Sign In</Text>
                     <View style={styles.formContainer}>
                         <Input
                             onChangeText={userPhone => this.setState({userPhone: userPhone})}
-                            placeholder='PHONE NUMBER'
+                            placeholder='Phone Number'
                             inputContainerStyle={styles.inputContainerStyle}
                             placeholderTextColor='#fff'
                             inputStyle={styles.inputStyle}
@@ -167,7 +171,7 @@ class Login extends Component {
                         <Input
                             ref={(input) => this.password = input}
                             onChangeText={password => this.setState({password: password})}
-                            placeholder='PASSWORD'
+                            placeholder='Password'
                             inputStyle={styles.inputStyle}
                             placeholderTextColor='#fff'
                             leftIcon={
@@ -184,7 +188,7 @@ class Login extends Component {
                             onPress={this.handleLogin}>
                             <Text style={styles.btnText}>Login</Text>
                         </TouchableOpacity>
-                        <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Signup")}>Or Sign Up</Text>
+                        <Text style={styles.signText} onPress={() => this.props.navigation.navigate("Signup")}>Press For Sign Up</Text>
                     </View>
                 </View>
             </ScrollView>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native'
+import { ListItem } from 'react-native-elements'
+
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -21,9 +23,9 @@ const styles = StyleSheet.create({
     nameText: {
         fontSize: 25,
         color: '#fff',
-        marginTop: 20,
+        marginTop: 15,
         marginBottom: 10,
-        
+        fontWeight: 'bold'
     },
     box: {
         width: '100%',
@@ -32,17 +34,18 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     text: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#fff'
     },
     button: {
-        width: '80%',
-        backgroundColor: 'purple',
-        marginTop: 50,
-        marginRight: 'auto',
+        width: '60%',
+        // backgroundColor: '#7b1fa2',
+        marginTop: 20,
         marginLeft: 'auto',
+        marginRight: 'auto',
         padding: 15,
         alignItems: 'center',
+        borderRadius: 15
     },
     btnText: {
         color: '#fff',
@@ -78,24 +81,38 @@ class Profile extends Component {
                 <Icon
                     style={styles.icon}
                     name='user-circle-o'
-                    size={120}
-                    color='purple'
+                    size={80}
+                    color='#7b1fa2'
                 />
                 <Text style={styles.nameText}>Hello {this.props.user.name}</Text>
             </View>
-            <View>
-                <View style={styles.box}>
-                    <Text style={styles.text}>No. Of Task You Have Gave:               {this.props.user.given_tasks.length}
-                    </Text>
-                </View>
-                <View style={styles.box}>
-                    <Text style={styles.text}> No. Of Task You Have Got:    {this.props.user.gotten_tasks.length}
-                    </Text>
-                </View>
-            </View>
-            <TouchableOpacity style={styles.button} onPress={this.handleLogOut}>
-                <Text style={styles.btnText}>Log Out</Text>
-            </TouchableOpacity>
+            <ListItem
+                style={styles.box}
+                containerStyle={{width: '100%', height: 100, backgroundColor: '#2a2a2a', borderRadius: 0}}
+                leftIcon={<Icon
+                            name='tasks'
+                            size={40}
+                            color='#7b1fa2'
+                          />}
+                title={<Text style={styles.text}>No. Of Task You Have Gave: {this.props.user.given_tasks.length}
+                </Text>}
+                subtitleStyle={{color: 'black'}}
+            />
+            <ListItem
+                style={styles.box}
+                containerStyle={{width: '100%', height: 100, backgroundColor: '#2a2a2a', borderRadius: 0}}
+                leftIcon={<Icon
+                            name='tasks'
+                            size={40}
+                            color='#7b1fa2'
+                          />}
+                title={<Text style={styles.text}>No. Of Task You Have Got: {this.props.user.gotten_tasks.length}
+                </Text>}
+                subtitleStyle={{color: 'black'}}
+            />
+                <TouchableOpacity style={styles.button} onPress={this.handleLogOut}>
+                    <Text style={styles.btnText}>Log Out</Text>
+                </TouchableOpacity>
       </View>
     )
   }

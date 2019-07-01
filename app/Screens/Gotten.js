@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { ListItem } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { URI } from '../../consts'
 import { storeUserData } from '../../actions/loginActions'
 
 import Card from '../components/Card'
@@ -21,17 +22,17 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   title: {
-    fontSize: 30,
-    paddingTop: 15,
-    color: '#fff',
+    fontSize: 25,
+    paddingTop: 20,
+    color: '#7b1fa2',
     marginBottom: 30
   },
   card: {
     width: '95%',
-    marginBottom: 15,
+    marginBottom: 2,
   },
   taskTitle: {
-    fontSize: 25,
+    fontSize: 18,
     color: '#fff',
     marginTop: 40,
     fontWeight: 'bold',
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
   },
   message: {
     color: '#fff',
-    fontSize: 25
+    fontSize: 25,
+    textAlign: 'center'
   },
 })
 
@@ -90,7 +92,7 @@ class Given extends Component {
     this.navListener = this.props.navigation.addListener('didFocus', async () => {
       let user = await AsyncStorage.getItem('user')
       let pass = await AsyncStorage.getItem('password')
-      fetch('http://192.168.1.17:3200/signin', {
+      fetch(`${URI}/signin`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -124,8 +126,8 @@ class Given extends Component {
                 containerStyle={{width: '100%', height: 100, backgroundColor: '#2a2a2a', borderRadius: 0}}
                 leftIcon={<Icon
                             name='tasks'
-                            size={60}
-                            color='#fff'
+                            size={40}
+                            color='#7b1fa2'
                           />}
                 title={<Text style={styles.taskTitle} numberOfLines={1}>{task.task_name}</Text>}
                 subtitle={<Card task={task} />}

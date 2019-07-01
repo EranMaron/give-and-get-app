@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image, ProgressBarAndroid } f
 import { connect } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { URI } from '../../consts'
 import { storeUserData } from '../../actions/loginActions'
 
 const styles = StyleSheet.create({
@@ -13,15 +14,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#000'
   },
   title: {
-    fontSize: 40,
-    marginTop: 50,
+    fontSize: 25,
+    marginTop: 30,
     color: '#fff',
     fontWeight: 'bold'
   },
   BtnsContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   giveBtnContainer: {
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
   Img: {
     width: 100,
     height: 80,
-    marginBottom: 15,
+    margin: 8,
   },
   btn: {
     justifyContent: 'center',
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 25,
-    color: '#fff',
+    color: '#7b1fa2',
   },
   loaderContainer: {
     flex: 1,
@@ -97,7 +98,7 @@ class Home extends Component {
   }
   
   fetchUserData = (userPhone, password) => {
-    fetch('http://192.168.1.17:3200/signin', {
+    fetch(`${URI}/signin`, {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -134,7 +135,7 @@ class Home extends Component {
               </View>
     return (
       <View style={styles.container}>
-        <Text style={styles.title}> Profile Screen </Text>
+        <Text style={styles.title}>Welcome {this.props.user.name}</Text>
         <View style={styles.BtnsContainer}>
           <View style={styles.giveBtnContainer}>
             <TouchableOpacity

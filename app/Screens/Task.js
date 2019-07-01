@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
         width: '100%',
         borderBottomWidth: 2,
         borderColor: '#fff',
-        marginBottom: 20,
+        marginBottom: 8,
     },
     taskName: {
-        fontSize: 40,
+        fontSize: 25,
         color: '#fff',
         marginBottom: 15,
         marginLeft: 15,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         width: '100%', 
     },
     text: {
-        fontSize: 18,
+        fontSize: 15,
         color: '#fff',
         marginTop: 0,
         marginBottom: 10,
@@ -65,16 +65,15 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     img: {
-        width: 150,
-        height: 130,
-        marginTop: 5,
+        width: 80,
+        height: 70,
         marginBottom: 15,
     },
     title: {
-        fontSize: 25,
-        color: '#fff',
+        fontSize: 18,
+        color: '#7b1fa2',
         marginTop: 5,
-        marginBottom: 10,
+        marginBottom: 5,
         marginLeft: 15,
     },
     divider: {
@@ -98,7 +97,7 @@ export default class Task extends Component {
                                 <Icon
                                     style={styles.backIcon}
                                     name='arrow-left'
-                                    size={30}
+                                    size={20}
                                     color='#fff'
                                 />
                             </TouchableOpacity>
@@ -120,13 +119,6 @@ export default class Task extends Component {
                         <Text style={styles.text}>{task.reward}</Text>
                         <Divider style={styles.divider} />
                     </View>
-                    {/* <View style={styles.btnContainer}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => this.props.navigation.navigate("Given", {date: new Date()})}>
-                            <Text style={styles.btnText}>Go Back</Text>
-                        </TouchableOpacity>
-                    </View> */}
                 </ScrollView>
             </View>
     )

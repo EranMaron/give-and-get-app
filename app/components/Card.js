@@ -11,14 +11,8 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     text: {
-        fontSize: 18,
+        fontSize: 15,
         color: '#fff'
-    },
-    progressBarContainer: {
-        width: '100%',  
-    },
-    progressBar: {
-        width: '80%'  
     },
 })
 
@@ -34,12 +28,6 @@ class Card extends Component {
                 <Text style={styles.text} numberOfLines = { 1 }> {this.props.task.description} </Text>
                 <Text style={styles.text} numberOfLines = { 1 }> {this.props.task.reward} </Text>
                 <View style={styles.progressBarContainer}>
-                    <ProgressBarAndroid
-                        style={styles.progressBar}
-                        styleAttr="Horizontal"
-                        indeterminate={false}
-                        progress={0.5}
-                    />
                 </View>
             </View>
         )
